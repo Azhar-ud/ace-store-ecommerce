@@ -4,6 +4,7 @@ import { useDispatch } from "react-redux";
 import { removeProduct, rehydrateCart } from "./lib/features/productSlice";
 import { IoIosCloseCircleOutline } from "react-icons/io";
 import { useEffect } from "react";
+
 import Link from "next/link";
 import toast from "react-hot-toast";
 
