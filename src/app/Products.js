@@ -7,7 +7,7 @@ import toast from "react-hot-toast";
 
 export default function Products({ list }) {
   const dispatch = useDispatch();
-  const addToCart = (title, image, price, id, category, quantity) => {
+  const addToCart = (title, image, price, id, category) => {
     const product = {
       title: title,
       image: image,
@@ -45,7 +45,7 @@ export default function Products({ list }) {
                     },
                   }}
                 >
-                  <div className="  hover:cursor-pointer h-full w-full flex justify-center ">
+                  <div className="  hover:cursor-pointer h-full w-full flex justify-center dark:bg-gray-800 ">
                     <img
                       src={item.image}
                       width={200}
@@ -77,7 +77,7 @@ export default function Products({ list }) {
                       )
                     }
                   >
-                    Add to Cart
+                    Cart
                   </button>
                   <p className="font-bold">${item.price}.00</p>
                 </div>
