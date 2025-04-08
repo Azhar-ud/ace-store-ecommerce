@@ -1,11 +1,8 @@
-"use client";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { Providers } from "./Providers";
 import { Toaster } from "react-hot-toast";
 import Navbar from "./Navbar";
-import { rehydrateCart } from "./lib/features/productSlice";
-rehydrateCart();
 
 const geistSans = Geist({
   variable: "--font-geist-sans",

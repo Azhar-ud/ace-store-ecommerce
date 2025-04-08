@@ -7,6 +7,8 @@ import { MdCancel } from "react-icons/md";
 import { MdShoppingCart } from "react-icons/md";
 import { usePathname } from "next/navigation";
 import { useSelector } from "react-redux";
+import { rehydrateCart } from "./lib/features/productSlice";
+rehydrateCart();
 
 export default function Navbar({}) {
   const path = usePathname();
