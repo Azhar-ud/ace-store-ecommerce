@@ -77,7 +77,7 @@ export default function Products({ list }) {
                       )
                     }
                   >
-                    Cart
+                    Add to Cart
                   </button>
                   <p className="font-bold">${item.price}.00</p>
                 </div>
