@@ -54,7 +54,7 @@ export default function Cart({ openCart, setOpenCart }) {
             className={`
               fixed top-0 right-0 h-full w-[300px] lg:w-[420px] bg-white z-50 flex flex-col  
               transform transition-transform duration-300 ease-in-out overflow-y-auto
-              border-2 border-red-500
+              border-2 
               ${openCart ? "translate-x-0" : "translate-x-full"}
           `}
           >
