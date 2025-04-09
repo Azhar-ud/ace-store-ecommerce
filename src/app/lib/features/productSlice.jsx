@@ -9,14 +9,11 @@ const setItemFunc = (products, totalAmount, totalQuantity) => {
   localStorage.setItem("totalAmount", JSON.stringify(totalAmount));
   localStorage.setItem("totalQuantity", JSON.stringify(totalQuantity));
 };
-const products = JSON.parse(localStorage.getItem("products")) || [];
-const totalAmount = JSON.parse(localStorage.getItem("totalAmount")) || 0;
-const totalQuantity = JSON.parse(localStorage.getItem("totalQuantity")) || 0;
 
 const initialState = {
-  products: products,
-  totalAmount: totalAmount,
-  totalQuantity: totalQuantity,
+  products: [],
+  totalAmount: 0,
+  totalQuantity: 0,
   Details: [],
 };
 
