@@ -28,7 +28,7 @@ const productSlice = createSlice({
       if (existing) {
         state.products.map((item) => {
           if (item.id === action.payload.id) {
-            item.quantity += 1;
+            item.quantity += action.payload.quantity;
             item.price += action.payload.price;
           }
         });
