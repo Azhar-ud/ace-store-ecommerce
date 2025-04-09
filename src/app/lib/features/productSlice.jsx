@@ -34,6 +34,7 @@ const productSlice = createSlice({
         });
       } else {
         console.log(action.payload);
+
         state.products.push(action.payload);
       }
       state.totalAmount =
