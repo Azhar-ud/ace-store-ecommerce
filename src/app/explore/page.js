@@ -1,92 +1,84 @@
 "use client";
-import Navbar from "../Navbar";
+
 import Options from "../Options";
-import { use, useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import Products from "../Products";
-import { useEffect } from "react";
-import { GiVortex } from "react-icons/gi";
-import { AiOutlineLoading3Quarters } from "react-icons/ai";
-import { useSelector } from "react-redux";
-export default function ExploreAll({}) {
-  const [data, setData] = useState();
+import { setProductList } from "../lib/features/productSlice";
+import { useDispatch, useSelector } from "react-redux";
+import { fetchAllProducts } from "../lib/api";
+
+export default function ExploreAll() {
   const [sort, setSort] = useState("All");
   const [category, setCategory] = useState("All");
   const [loading, setLoading] = useState(true);
+  const dispatch = useDispatch();
+  const data = useSelector((state) => state.products.productList);
+  const isFetched = useSelector((state) => state.products.isFetched);
+  const scroll = useSelector((state) => state.products.scrollY);
 
-  const fetchedRef = useRef(false);
   const type = [
     "men's clothing",
     "women's clothing",
     "electronics",
     "jewelery",
   ];
-  const fetchData = async () => {
-    try {
-      let response = await fetch("https://fakestoreapi.com/products");
-      response = await response.json();
 
-      setData(response);
-      console.log(response);
-      setLoading(false);
-    } catch (err) {
-      console.log(err);
-      setLoading(false);
-    }
-  };
-  if (sort == "desc") {
-    console.log("desc");
-    data.sort((a, b) => {
-      return b.price - a.price;
-    });
-  }
-  if (sort == "asc") {
-    data.sort((a, b) => {
-      return a.price - b.price;
-    });
-  }
-  if (sort == "all") {
-    data.sort((a, b) => {
-      return a.id - b.id;
-    });
-  }
-  const listing = () => {
-    return data.filter((item) => {
-      return item.category == category;
-    });
-  };
   useEffect(() => {
-    if (!fetchedRef.current) {
-      fetchData();
-      console.log("fetching");
-      fetchedRef.current = true;
+    const getProducts = async () => {
+      try {
+        const response = await fetchAllProducts();
+        dispatch(setProductList(response));
+        setLoading(false);
+      } catch (err) {
+        console.error(err);
+        setLoading(false);
+      }
+    };
+    if (!isFetched) {
+      getProducts();
+    } else {
+      setLoading(false);
     }
+  }, [dispatch, isFetched]);
+
+  useEffect(() => {
+    window.scrollTo(0, scroll);
   }, []);
 
+  // Clone data to avoid mutating Redux state
+  let sortedData = [...data];
+
+  if (sort === "desc") {
+    sortedData.sort((a, b) => b.price - a.price);
+  } else if (sort === "asc") {
+    sortedData.sort((a, b) => a.price - b.price);
+  } else {
+    sortedData.sort((a, b) => a.id - b.id);
+  }
+
+  const filteredData =
+    category !== "All"
+      ? sortedData.filter((item) => item.category === category)
+      : sortedData;
+
   return (
-    <>
-      <div className="mt-12">
-        <Options
-          type={type}
+    <div className="mt-12">
+      <Options
+        type={type}
+        category={category}
+        setCategory={setCategory}
+        sort={sort}
+        setSort={setSort}
+      />
+
+      <div>
+        <Products
           category={category}
-          setCategory={setCategory}
           sort={sort}
-          setSort={setSort}
+          list={filteredData}
+          loading={loading}
         />
-        {loading ? (
-          <div className="animate-spin text-4xl flex justify-center items-center">
-            <AiOutlineLoading3Quarters />
-          </div>
-        ) : (
-          <div>
-            <Products
-              category={category}
-              sort={sort}
-              list={category != "All" ? listing() : data}
-              loading={loading}
-            />
-          </div>
-        )}
       </div>
-    </>
+    </div>
   );
 }

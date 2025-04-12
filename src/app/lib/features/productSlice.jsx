@@ -11,6 +11,9 @@ const setItemFunc = (products, totalAmount, totalQuantity) => {
 };
 
 const initialState = {
+  productList: [],
+  isFetched: false,
+  scrollY: 0,
   products: [],
   totalAmount: 0,
   totalQuantity: 0,
@@ -50,6 +53,9 @@ const productSlice = createSlice({
       );
       console.log(state.totalAmount);
     },
+    setScrollY(state, action) {
+      state.scrollY = action.payload;
+    },
     removeProduct(state, action) {
       state.products = state.products.filter(
         (item) => item.id !== action.payload.id
@@ -86,9 +92,19 @@ const productSlice = createSlice({
       state.totalAmount = action.payload.totalAmount || 0;
       state.totalQuantity = action.payload.totalQuantity || 0;
     },
+    setProductList(state, action) {
+      state.productList = action.payload;
+      state.isFetched = true;
+    },
   },
 });
 
-export const { addProduct, removeProduct, addDetails, rehydrateCart } =
-  productSlice.actions;
+export const {
+  addProduct,
+  removeProduct,
+  addDetails,
+  rehydrateCart,
+  setProductList,
+  setScrollY,
+} = productSlice.actions;
 export default productSlice.reducer;

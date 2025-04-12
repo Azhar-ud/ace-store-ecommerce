@@ -2,10 +2,12 @@
 
 import { useSearchParams } from "next/navigation";
 import { addProduct } from "@/app/lib/features/productSlice";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useState } from "react";
 
 import toast from "react-hot-toast";
+import RelatedProducts from "./RelatedProducts";
+
 export default function ProductDetails({}) {
   const [quantity, setQuantity] = useState(1);
   const searchParams = useSearchParams();
@@ -18,6 +20,8 @@ export default function ProductDetails({}) {
     category: searchParams.get("category"),
     quantity: Number(searchParams.get("quantity")),
   };
+
+  const relatedItems = useSelector((state) => state.products.productList);
 
   const IncreaseQuantity = () => {
     setQuantity(quantity + 1);
@@ -40,6 +44,7 @@ export default function ProductDetails({}) {
     };
     dispatch(addProduct(product));
     toast.success("Added to Cart");
+    setQuantity(1);
   };
 
   return (
@@ -93,6 +98,7 @@ export default function ProductDetails({}) {
           </div>
         </div>
       </div>
+      <RelatedProducts category={item.category} id={item.id} />
     </>
   );
 }

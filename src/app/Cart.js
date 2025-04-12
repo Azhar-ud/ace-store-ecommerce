@@ -18,7 +18,6 @@ export default function Cart({ openCart, setOpenCart }) {
     dispatch(removeProduct({ id }));
     toast.error("Removed from Cart");
   };
-
   useEffect(() => {
     if (typeof window !== "undefined") {
       const products = JSON.parse(localStorage.getItem("products")) || [];
